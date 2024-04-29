@@ -33,12 +33,26 @@ const DATABASE_URL =
 
 const REDIS_URL = process.env.REDIS_URL || "redis://localhost:6379";
 
+const STRIPE_API_KEY =
+   "sk_test_51P8jQ5Fu0eJ6Fz1QV1oJoJtPLKJKqmRqjWWrrQgVuBg2h1UVuxea9zRCjb66vhQwk4w9M2WN4h0Buh9MNAyQOoyI00R2DEhum3";
+
 const plugins = [
-  `medusa-fulfillment-manual`,
-  `medusa-payment-manual`,
+  'medusa-fulfillment-manual',
+  'medusa-payment-manual',
   {
-    resolve: `@medusajs/file-local`,
+    resolve: `medusa-payment-paypal`,
     options: {
+      sandbox: process.env.PAYPAL_SANDBOX,
+      clientId: process.env.PAYPAL_CLIENT_ID,
+      clientSecret: process.env.PAYPAL_CLIENT_SECRET,
+      authWebhookId: process.env.PAYPAL_AUTH_WEBHOOK_ID,
+    }
+  },
+  {
+    resolve: `medusa-payment-stripe`,
+    options: {
+      api_key: STRIPE_API_KEY,
+      webhook_secret: "whsec_0595abfb5e7f186e5a6fb776b69e7bbb727ba4eee13cd21829fb269ebfe596f0",
       upload_dir: "uploads",
     },
   },
