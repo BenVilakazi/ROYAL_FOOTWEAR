@@ -19,6 +19,7 @@
   "devDependencies": {
     "@types/estree": "^1.0.5",
     "@types/mime": "^4.0.0",
-    "@types/ws": "^8.5.10"
+    "@types/ws": "^8.5.10",
+    "nodemon": "^3.1.0"
   }
 }
