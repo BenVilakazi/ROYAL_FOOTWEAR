@@ -31,7 +31,7 @@ const STORE_CORS = process.env.STORE_CORS || "http://localhost:8000";
 const DATABASE_URL =
   process.env.DATABASE_URL || "postgres://localhost/medusa-starter-default";
 
-const REDIS_URL = process.env.REDIS_URL || "redis://localhost:6379";
+/*const REDIS_URL = process.env.REDIS_URL || "redis://localhost:6379";*/
 
 const plugins = [
   'medusa-fulfillment-manual',
@@ -55,7 +55,7 @@ const plugins = [
   },
 
   {
-    resolve: medusa-plugin-sendgrid,
+    resolve: 'medusa-plugin-sendgrid',
     options: {
       api_key: process.env.SENDGRID_API_KEY,
       from: process.env.SENDGRID_FROM,
@@ -72,7 +72,7 @@ const plugins = [
 
 
   {
-    resolve: medusa-payment-paypal,
+    resolve: 'medusa-payment-paypal',
     options: {
       sandbox: process.env.PAYPAL_SANDBOX,
       client_id: process.env.PAYPAL_CLIENT_ID,
@@ -81,7 +81,7 @@ const plugins = [
     },
   },
   {
-    resolve: medusa-payment-stripe,
+    resolve: 'medusa-payment-stripe',
     options: {
       api_key: process.env.STRIPE_API_KEY,
       webhook_secret: process.env.STRIPE_WEBHOOK_SECRET,
@@ -89,21 +89,21 @@ const plugins = [
   },
   
   {
-    resolve: medusa-plugin-dashboard,
+    resolve: 'medusa-plugin-dashboard',
     options: {
       enableUI: true,
     },
   },
 /*
   {
-    resolve: medusa-plugin-custom-dashboard,
+    resolve: 'medusa-plugin-custom-dashboard',
     options: {
         enableUI: true,
     },
 },
 */
 {
-  resolve: medusa-plugin-abandoned-cart,
+  resolve: 'medusa-plugin-abandoned-cart',
   /** @type {import('medusa-plugin-abandoned-cart').PluginOptions} */
   options: {
     from: process.env.SENDGRID_FROM,
@@ -119,9 +119,9 @@ const plugins = [
   },
 },
 
-medusa-plugin-product-reviews,
+'medusa-plugin-product-reviews',
 {
-  resolve: medusa-storage-supabase,
+  resolve: 'medusa-storage-supabase',
   options: {
     referenceID: process.env.STORAGE_BUCKET_REF,
     serviceKey: process.env.STORAGE_SERVICE_KEY,
@@ -129,22 +129,27 @@ medusa-plugin-product-reviews,
   },
 },
 {
-  resolve: medusa-plugin-restock-notification,
+  resolve: 'medusa-plugin-restock-notification',
   options: {
-    trigger_delay, // optional, delay time in milliseconds
-    inventory_required, // minimum inventory quantity to consider a variant as restocked
+    trigger_delay: 1000, // optional, delay time in milliseconds
+    inventory_required: 10, // minimum inventory quantity to consider a variant as restocked
   },
 },
-medusa-plugin-wishlist,
+/*
 {
-  resolve: medusa-plugin-segment,
+  resolve: `medusa-plugin-wishlist`,
+},
+*/
+
+{
+  resolve: 'medusa-plugin-segment',
   options: {
     write_key: process.env.SEGMENT_WRITE_KEY,
   },
 },
 
 {
-  resolve: medusa-plugin-algolia,
+  resolve: 'medusa-plugin-algolia',
   options: {
     applicationId: process.env.ALGOLIA_APP_ID,
     adminApiKey: process.env.ALGOLIA_ADMIN_API_KEY,
@@ -191,8 +196,8 @@ medusa-plugin-wishlist,
   },
 },
 ];
-
-/*const modules = {
+/*
+const modules = {
   eventBus: {
     resolve: "@medusajs/event-bus-redis",
     options: {
@@ -205,27 +210,26 @@ medusa-plugin-wishlist,
       redisUrl: REDIS_URL
     }
   },
-};/*
-
-/** @type {import('@medusajs/medusa').ConfigModule["projectConfig"]} */
-const projectConfig = {
-  jwtSecret: process.env.JWT_SECRET,
-  cookieSecret: process.env.COOKIE_SECRET,
-  store_cors: STORE_CORS,
-  database_url: DATABASE_URL,
-  admin_cors: ADMIN_CORS,
-  // Uncomment the following lines to enable REDIS
-  /*redis_url: REDIS_URL*/
 };
+*/
 
 /** @type {import('@medusajs/medusa').ConfigModule} */
 module.exports = {
   projectConfig: {
-    redis_url: REDIS_URL,
-    database_url: DATABASE_URL,
+    /*redis_url:  process.env.REDIS_URL || "redis://localhost:6379",*/
+    database_url: process.env.DATABASE_URL || "postgres://postgres:Royal_Footwear@localhost:5432/postgres",
     database_type: "postgres",
-    store_cors: STORE_CORS,
-    admin_cors: ADMIN_CORS,
+    backend_url: process.env.BACKEND_URL || "http://localhost:7001",
+    // CORS when consuming Medusa from admin
+    admin_cors: process.env.ADMIN_CORS || "/http:\\/\\/localhost:700[01]$/",
+    // CORS to avoid issues when consuming Medusa from a client
+    store_cors: process.env.STORE_CORS || "/http:\\/\\/localhost:8000$/",
+    auth_cors: process.env.AUTH_CORS || "/http:\\/\\/localhost:700\\d+$/",
+    jwtSecret: process.env.JWT_SECRET  || "supersecret",
+    cookieSecret: process.env.COOKIE_SECRET || "supersecret",
+    connectionName: process.env.REDIS_CONNECTION_NAME || "medusa",
+    name: process.env.SESSION_NAME || "custom",
+    jobs_batch_size: 100
   },
   plugins,
 };
