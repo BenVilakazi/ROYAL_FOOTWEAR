@@ -33,5 +33,5 @@ We invite you to join us on this journey as we continue to innovate and redefine
 
 ## 🔗 LINKS
 ![portfolio](https://img.shields.io/badge/my_portfolio-000?style=for-the-badge&logo=ko-fi&logoColor=white)]https://github.com/Royal-Footwear/ROYAL_FOORWEAR
-[![linkedin](https://img.shields.io/badge/linkedin-0A66C2?style=for-the-badge&logo=linkedin&logoColor=white)]www.linkedin.com/in/marciamaphosa
+[![linkedin]([https://img.shields.io/badge/linkedin-0A66C2?style=for-the-badge&logo=linkedin&logoColor=white](https://landing-page-ten-eta-79.vercel.app/))]
 
